@@ -1,0 +1,20 @@
+package com.courzelo_for_business.candidate_application.repositories;
+
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
+
+import com.courzelo_for_business.candidate_application.entities.CandidateApp;
+
+@Repository
+public interface CandidateAppRepository extends MongoRepository<CandidateApp,String> {
+	
+	//this repository contain all operations of mongodb
+	public CandidateApp findByIdCandidateApp(String idCandidateApp);
+	public boolean existsByIdJobAndUserId(String idJob,String userId);
+	
+	public List<CandidateApp> findByIdJob(String idJob);
+	public List<CandidateApp> findByUserId(String userId);
+
+}
