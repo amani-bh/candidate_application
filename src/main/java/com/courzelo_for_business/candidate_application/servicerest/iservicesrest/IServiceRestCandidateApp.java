@@ -17,6 +17,7 @@ public interface IServiceRestCandidateApp {
 	
 	public List<CandidateAppDTO> getAllapplications();
 	public CandidateAppDTO getCandidateById(String idCandidateApp );
+	public List<CandidateAppDTO> getAppByBusiness(String idBusiness);
 	public List<CandidateAppDTO> getCandidateByJob(String idJob );
 	public List<CandidateAppDTO> getCandidateByUser(Long userId);
 	public StateDTO getCurrentState(String idCandidateApp );

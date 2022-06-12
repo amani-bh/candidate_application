@@ -92,6 +92,33 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		
 	}
 	
+	public List<CandidateAppDTO> getAppByBusiness(String idBusiness){
+		List<CandidateApp> apps = candidateAppRepository.findByJobBusinessIdBusiness(idBusiness);
+		
+		apps.forEach(app->{
+			if(app.getUser()!=null) {
+			Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", app.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API, User.class, params);
+		    app.setUser(user);
+			}
+			
+			if(app.getJob()!=null) {
+				Map<String, String> params2 = new HashMap<String, String>();
+				params2.put("idJob", app.getJob().getIdJob());
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			    app.setJob(job);
+				}
+		});
+		
+		return apps.stream().map(app -> mapper.map(app, CandidateAppDTO.class))
+		.collect(Collectors.toList());
+		
+		
+	}
+	
+	
+	
 	
 	public CandidateAppDTO getCandidateById(String idCandidateApp ) {
 	

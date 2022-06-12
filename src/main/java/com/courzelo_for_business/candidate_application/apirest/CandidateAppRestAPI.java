@@ -54,6 +54,11 @@ public class CandidateAppRestAPI {
 		return iCandidateApp.getCandidateById(idCandidateApp); 
 	}
 	
+	@GetMapping(path = "business/{idBusiness}")
+	public List<CandidateAppDTO> getCandidateAppByBusiness(@PathVariable(name = "idBusiness") String idBusiness) {
+		return iCandidateApp.getAppByBusiness(idBusiness); 
+	}
+	
 	@GetMapping(path = "/byJob/{idJob}")
 	public List<CandidateAppDTO> getCandidateAppByIdJob(@PathVariable(name = "idJob") String idJob) {
 		return iCandidateApp.getCandidateByJob(idJob); 
