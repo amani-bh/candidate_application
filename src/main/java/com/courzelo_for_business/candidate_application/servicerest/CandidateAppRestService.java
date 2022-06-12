@@ -2,25 +2,32 @@ package com.courzelo_for_business.candidate_application.servicerest;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.courzelo_for_business.candidate_application.entities.CandidateApp;
+import com.courzelo_for_business.candidate_application.entities.JobOffers;
 import com.courzelo_for_business.candidate_application.entities.LoadFile;
 import com.courzelo_for_business.candidate_application.entities.State;
+import com.courzelo_for_business.candidate_application.entities.User;
 import com.courzelo_for_business.candidate_application.entities.dtos.CandidateAppDTO;
 import com.courzelo_for_business.candidate_application.entities.dtos.StateDTO;
 import com.courzelo_for_business.candidate_application.repositories.CandidateAppRepository;
@@ -52,11 +59,33 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
     @Autowired
     private FileService fileService;
     
-   
     
+    @Autowired
+    RestTemplateBuilder restTemplateBuilder;
+   
+    private static final String GET_USER_BY_ID_API = "https://auth-herokuu.herokuapp.com/api/auth/getUser/{id}";
+    private static final String GET_Job_BY_ID_API = "https://joboffers-application.herokuapp.com/JobOffers/{idJob}";
 
+   
 	public List<CandidateAppDTO> getAllapplications(){
 		List<CandidateApp> apps = candidateAppRepository.findAll();
+		
+		apps.forEach(app->{
+			if(app.getUser()!=null) {
+			Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", app.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API, User.class, params);
+		    app.setUser(user);
+			}
+			
+			if(app.getJob()!=null) {
+				Map<String, String> params2 = new HashMap<String, String>();
+				params2.put("idJob", app.getJob().getIdJob());
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			    app.setJob(job);
+				}
+		});
+		
 		return apps.stream().map(app -> mapper.map(app, CandidateAppDTO.class))
 		.collect(Collectors.toList());
 		
@@ -68,16 +97,44 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	
 		CandidateApp app = candidateAppRepository.findByIdCandidateApp(idCandidateApp); 
 		
+		Map<String, Long> params = new HashMap<String, Long>();
+		params.put("id", app.getUser().getId());
+		User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+	    app.setUser(user);
 		
+	    
+	    Map<String, String> params2 = new HashMap<String, String>();
+		params2.put("idJob", app.getJob().getIdJob());
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+	    app.setJob(job);
+	    
+	    
 		return mapper.map(app, CandidateAppDTO.class);
 		
 	}
 	
 	
 	
-	public List<CandidateAppDTO> getCandidateByUser(String userId) {
+	public List<CandidateAppDTO> getCandidateByUser(Long userId) {
 		
 		List<CandidateApp> apps = candidateAppRepository.findByUserId(userId);
+		
+		apps.forEach(app->{
+			if(app.getUser()!=null) {
+			Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", app.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+		    app.setUser(user);
+			}
+			
+			if(app.getJob()!=null) {
+				Map<String, String> params2 = new HashMap<String, String>();
+				params2.put("idJob", app.getJob().getIdJob());
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			    app.setJob(job);
+				}
+		});
+		
 		return apps.stream().map(app -> mapper.map(app, CandidateAppDTO.class))
 				.collect(Collectors.toList());
 		
@@ -85,7 +142,25 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	
 	public List<CandidateAppDTO> getCandidateByJob(String idJob) {
 	
-		List<CandidateApp> apps = candidateAppRepository.findByIdJob(idJob);
+		List<CandidateApp> apps = candidateAppRepository.findByJobIdJob(idJob);
+		
+		apps.forEach(app->{
+			if(app.getUser()!=null) {
+			Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", app.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+		    app.setUser(user);
+			}
+			
+			if(app.getJob()!=null) {
+				Map<String, String> params2 = new HashMap<String, String>();
+				params2.put("idJob", app.getJob().getIdJob());
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			    app.setJob(job);
+				}
+		});
+		
+		
 		return apps.stream().map(app -> mapper.map(app, CandidateAppDTO.class))
 				.collect(Collectors.toList());
 		
@@ -101,13 +176,25 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		
 	}
 	
-	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob) throws IOException {
-		if(candidateAppRepository.existsByIdJobAndUserId(idJob,candidateApp.getUserId())) {
+	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob,Long id) throws IOException {
+		if(candidateAppRepository.existsByJobIdJobAndUserId(idJob,id)) {
 		   throw new IOException("Application for this job already exist");
 		}
 		else {
 		    CandidateApp app=mapper.map(candidateApp, CandidateApp.class);
-			app.setIdJob(idJob);
+			
+		    
+		    Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", id);
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+		    app.setUser(user);
+			
+		   
+		    Map<String, String> params2 = new HashMap<String, String>();
+			params2.put("idJob", idJob);
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		    app.setJob(job);
+		    
 		    CandidateApp newApp = candidateAppRepository.save(app);
 		    return mapper.map(newApp, CandidateAppDTO.class);
 		}
@@ -119,13 +206,22 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		CandidateApp app = mapper.map(candidateApp, CandidateApp.class);
 		
 		CandidateApp theApp = candidateAppRepository.findByIdCandidateApp(idCandidateApp);
-    	theApp.setIdJob(app.getIdCandidateApp());
+    	theApp.setIdCandidateApp(app.getIdCandidateApp());
     	theApp.setApplicationDate(app.getApplicationDate());
     	theApp.setCandidateState(app.getCandidateState());
-    	theApp.setIdJob(app.getIdJob());
     	theApp.setTests(app.getTests());
-    	theApp.setUserId(app.getUserId());
     	
+    	Map<String, Long> params = new HashMap<String, Long>();
+		params.put("id", app.getUser().getId());
+		User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API, User.class, params);
+	    theApp.setUser(user);
+		
+	    
+	    Map<String, String> params2 = new HashMap<String, String>();
+		params2.put("idJob", app.getJob().getIdJob());
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+	    theApp.setJob(job);
+	   
     	CandidateApp newApp = candidateAppRepository.save(theApp);
 		
     	
@@ -154,7 +250,18 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
          CandidateApp app  = candidateAppRepository.findByIdCandidateApp(idCandidateApp);
         
     
-         
+         Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", app.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+		    app.setUser(user);
+			
+		    
+		    Map<String, String> params2 = new HashMap<String, String>();
+			params2.put("idJob", app.getJob().getIdJob());
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		    app.setJob(job);
+		 
+		 app=candidateAppRepository.save(app);
          return mapper.map(app, CandidateAppDTO.class);
 	}
 	
@@ -183,12 +290,24 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		
 	}
 	
-	
-	
+
 	
 	public CandidateAppDTO addCv(String idCandidateApp,MultipartFile cv) throws IOException {
 		    CandidateApp theApp = candidateAppRepository.findByIdCandidateApp(idCandidateApp);
 		    theApp.setCv(fileService.addFile(cv));
+		    
+		    Map<String, Long> params = new HashMap<String, Long>();
+			params.put("id", theApp.getUser().getId());
+			User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+		    theApp.setUser(user);
+			
+		    
+		    Map<String, String> params2 = new HashMap<String, String>();
+			params2.put("idJob", theApp.getJob().getIdJob());
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		    theApp.setJob(job);
+		    
+		    
 		    CandidateApp newApp = candidateAppRepository.save(theApp);
 		    return mapper.map(newApp, CandidateAppDTO.class);
 		
@@ -212,6 +331,19 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	    	}
 	    });
 	   
+	    
+	    Map<String, Long> params = new HashMap<String, Long>();
+		params.put("id", theApp.getUser().getId());
+		User user = restTemplateBuilder.build().getForObject(GET_USER_BY_ID_API , User.class, params);
+	    theApp.setUser(user);
+		
+	    
+	    Map<String, String> params2 = new HashMap<String, String>();
+		params2.put("idJob", theApp.getJob().getIdJob());
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+	    theApp.setJob(job);
+	    
+	    
 	    CandidateApp newApp = candidateAppRepository.save(theApp);
 	    return mapper.map(newApp, CandidateAppDTO.class);
 	

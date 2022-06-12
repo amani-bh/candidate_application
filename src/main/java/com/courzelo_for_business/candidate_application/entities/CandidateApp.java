@@ -23,11 +23,11 @@ public class CandidateApp {
 	    @Field(value = "applicationDate")
 	    private Date applicationDate;
 	    
-	    @Field(value = "userId")
-	    private String userId;
+	    @Field(value = "user")
+	    private User user;
 	    
-	    @Field(value = "idJob")
-	    private String idJob;
+	    @Field(value = "Job")
+	    private JobOffers job;
 	    
 	    @Field(value = "cv")
 	    private String cv;

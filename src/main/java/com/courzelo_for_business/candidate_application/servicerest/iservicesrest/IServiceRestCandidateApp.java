@@ -18,9 +18,9 @@ public interface IServiceRestCandidateApp {
 	public List<CandidateAppDTO> getAllapplications();
 	public CandidateAppDTO getCandidateById(String idCandidateApp );
 	public List<CandidateAppDTO> getCandidateByJob(String idJob );
-	public List<CandidateAppDTO> getCandidateByUser(String userId);
+	public List<CandidateAppDTO> getCandidateByUser(Long userId);
 	public StateDTO getCurrentState(String idCandidateApp );
-	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob) throws IOException;
+	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob,Long id) throws IOException;
 	public CandidateAppDTO updateApp(String idCandidateApp,CandidateAppDTO candidateApp);
 	public CandidateAppDTO addState(String idCandidateApp,StateDTO candidateState);
 	public void deleteApp(String idCandidateApp);

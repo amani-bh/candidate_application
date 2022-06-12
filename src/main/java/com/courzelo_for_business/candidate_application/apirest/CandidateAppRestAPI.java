@@ -60,7 +60,7 @@ public class CandidateAppRestAPI {
 	}
 	
 	@GetMapping(path = "/byUser/{userId}")
-	public List<CandidateAppDTO> getCandidateAppByUser(@PathVariable(name = "userId") String userId) {
+	public List<CandidateAppDTO> getCandidateAppByUser(@PathVariable(name = "userId") Long userId) {
 		return iCandidateApp.getCandidateByUser(userId); 
 	}
 	
@@ -69,10 +69,10 @@ public class CandidateAppRestAPI {
 		return iCandidateApp.getCurrentState(idCandidateApp); 
 	}
 	
-	@PostMapping(path ="/{idJob}")
-    public ResponseEntity<?> addApp(@RequestBody  @Valid  CandidateAppDTO app,@PathVariable(name = "idJob") String idJob) throws IOException {
+	@PostMapping(path ="/{idJob}/{id}")
+    public ResponseEntity<?> addApp(@RequestBody  @Valid  CandidateAppDTO app,@PathVariable(name = "idJob") String idJob,@PathVariable(name = "id") Long id) throws IOException {
 		try {
-			CandidateAppDTO appResponse = iCandidateApp.addApp(app,idJob);
+			CandidateAppDTO appResponse = iCandidateApp.addApp(app,idJob,id);
 			return new ResponseEntity<CandidateAppDTO>(appResponse, HttpStatus.CREATED);
 		}
 		catch(Exception e)
