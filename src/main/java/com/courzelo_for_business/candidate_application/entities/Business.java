@@ -1,11 +1,6 @@
 package com.courzelo_for_business.candidate_application.entities;
 
 import java.util.Date;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
-import org.springframework.data.annotation.Id;
 
 public class Business {
   

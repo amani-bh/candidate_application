@@ -10,7 +10,7 @@ import lombok.Setter;
  * The persistent class for the user database table.
  * 
  */
-@Document
+
 @Getter
 @Setter
 public class User implements Serializable {
