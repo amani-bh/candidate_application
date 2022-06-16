@@ -74,6 +74,12 @@ public class CandidateAppRestAPI {
 		return iCandidateApp.getCurrentState(idCandidateApp); 
 	}
 	
+	@GetMapping(path = "/Exist/{idJob}/{id}")
+	public boolean ExistApp(@PathVariable(name = "idJob") String idJob,@PathVariable(name = "id") Long id) {
+		return iCandidateApp.ExistApp(idJob,id); 
+	}
+	
+	
 	@PostMapping(path ="/{idJob}/{id}")
     public ResponseEntity<?> addApp(@RequestBody  @Valid  CandidateAppDTO app,@PathVariable(name = "idJob") String idJob,@PathVariable(name = "id") Long id) throws IOException {
 		try {

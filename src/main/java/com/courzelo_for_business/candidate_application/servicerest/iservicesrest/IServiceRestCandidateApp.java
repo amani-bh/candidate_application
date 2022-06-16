@@ -21,6 +21,7 @@ public interface IServiceRestCandidateApp {
 	public List<CandidateAppDTO> getCandidateByJob(String idJob );
 	public List<CandidateAppDTO> getCandidateByUser(Long userId);
 	public StateDTO getCurrentState(String idCandidateApp );
+	public boolean ExistApp(String idJob,Long id) ;
 	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob,Long id) throws IOException;
 	public CandidateAppDTO updateApp(String idCandidateApp,CandidateAppDTO candidateApp);
 	public CandidateAppDTO addState(String idCandidateApp,StateDTO candidateState);

@@ -17,8 +17,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -64,7 +62,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
     RestTemplateBuilder restTemplateBuilder;
    
     private static final String GET_USER_BY_ID_API = "https://auth-herokuu.herokuapp.com/api/auth/getUser/{id}";
-    private static final String GET_Job_BY_ID_API = "https://joboffers-application.herokuapp.com/JobOffers/{idJob}";
+    private static final String GET_JOB_BY_ID_API = "https://joboffers-application.herokuapp.com/JobOffers/{idJob}";
 
    
 	public List<CandidateAppDTO> getAllapplications(){
@@ -81,7 +79,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 			if(app.getJob()!=null) {
 				Map<String, String> params2 = new HashMap<String, String>();
 				params2.put("idJob", app.getJob().getIdJob());
-				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 			    app.setJob(job);
 				}
 		});
@@ -106,7 +104,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 			if(app.getJob()!=null) {
 				Map<String, String> params2 = new HashMap<String, String>();
 				params2.put("idJob", app.getJob().getIdJob());
-				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 			    app.setJob(job);
 				}
 		});
@@ -132,7 +130,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	    
 	    Map<String, String> params2 = new HashMap<String, String>();
 		params2.put("idJob", app.getJob().getIdJob());
-		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 	    app.setJob(job);
 	    
 	    
@@ -157,7 +155,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 			if(app.getJob()!=null) {
 				Map<String, String> params2 = new HashMap<String, String>();
 				params2.put("idJob", app.getJob().getIdJob());
-				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 			    app.setJob(job);
 				}
 		});
@@ -182,7 +180,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 			if(app.getJob()!=null) {
 				Map<String, String> params2 = new HashMap<String, String>();
 				params2.put("idJob", app.getJob().getIdJob());
-				JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+				JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 			    app.setJob(job);
 				}
 		});
@@ -203,6 +201,11 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		
 	}
 	
+	public boolean ExistApp(String idJob,Long id) {
+		return candidateAppRepository.existsByJobIdJobAndUserId(idJob,id);
+	}
+	
+	
 	public CandidateAppDTO addApp(CandidateAppDTO candidateApp,String idJob,Long id) throws IOException {
 		if(candidateAppRepository.existsByJobIdJobAndUserId(idJob,id)) {
 		   throw new IOException("Application for this job already exist");
@@ -219,7 +222,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		   
 		    Map<String, String> params2 = new HashMap<String, String>();
 			params2.put("idJob", idJob);
-			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 		    app.setJob(job);
 		    
 		    CandidateApp newApp = candidateAppRepository.save(app);
@@ -246,7 +249,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	    
 	    Map<String, String> params2 = new HashMap<String, String>();
 		params2.put("idJob", app.getJob().getIdJob());
-		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 	    theApp.setJob(job);
 	   
     	CandidateApp newApp = candidateAppRepository.save(theApp);
@@ -285,7 +288,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		    
 		    Map<String, String> params2 = new HashMap<String, String>();
 			params2.put("idJob", app.getJob().getIdJob());
-			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 		    app.setJob(job);
 		 
 		 app=candidateAppRepository.save(app);
@@ -331,7 +334,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		    
 		    Map<String, String> params2 = new HashMap<String, String>();
 			params2.put("idJob", theApp.getJob().getIdJob());
-			JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+			JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 		    theApp.setJob(job);
 		    
 		    
@@ -367,7 +370,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 	    
 	    Map<String, String> params2 = new HashMap<String, String>();
 		params2.put("idJob", theApp.getJob().getIdJob());
-		JobOffers job = restTemplateBuilder.build().getForObject(GET_Job_BY_ID_API, JobOffers.class, params2);
+		JobOffers job = restTemplateBuilder.build().getForObject(GET_JOB_BY_ID_API, JobOffers.class, params2);
 	    theApp.setJob(job);
 	    
 	    
