@@ -20,7 +20,7 @@ public class State {
 	  private String label;
 	  private int step;
 	  private String idPrehiringTest;
-	  private List<String> idTest;
+	  private String idTest;
 	  private String linkMeet;
 	  private Date interviewDate;
 	  private int score;

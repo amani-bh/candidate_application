@@ -19,7 +19,7 @@ public class StateDTO {
 	  private int step;
 	  private int score;
 	  private String idPrehiringTest;
-	  private List<String> idTest;
+	  private String idTest;
 	  private String linkMeet;
 	  private Date interviewDate;
 	  private String offerDoc;
