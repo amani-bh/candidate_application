@@ -20,7 +20,7 @@ public class CandidateAppDTO {
     private User user;
     private JobOffers job;
     private String cv;
-    private List<String> tests;
+    private List<String> idTest;
     private List<StateDTO> candidateState;
 	public CandidateAppDTO() {}
 	

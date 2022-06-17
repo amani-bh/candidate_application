@@ -239,7 +239,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
     	theApp.setIdCandidateApp(app.getIdCandidateApp());
     	theApp.setApplicationDate(app.getApplicationDate());
     	theApp.setCandidateState(app.getCandidateState());
-    	theApp.setTests(app.getTests());
+    	theApp.setIdTest(app.getIdTest());
     	
     	Map<String, Long> params = new HashMap<String, Long>();
 		params.put("id", app.getUser().getId());
@@ -307,7 +307,7 @@ public class CandidateAppRestService implements IServiceRestCandidateApp {
 		MimeMessage message = mailSender.createMimeMessage();              
 	    MimeMessageHelper helper = new MimeMessageHelper(message);
 	     
-	    helper.setFrom("jagermaya2@gmail.com", "Courzelo for business Support");
+	    helper.setFrom("haithemelmetoui313@gmail.com", "Courzelo for business Support");
 	    helper.setTo(email);
 	     
 	    String subject = "Hello , ";

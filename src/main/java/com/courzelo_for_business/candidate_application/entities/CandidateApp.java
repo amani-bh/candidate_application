@@ -33,7 +33,7 @@ public class CandidateApp {
 	    private String cv;
 	    
 	    @Field(value = "idTest") 
-	    private List<String> tests;
+	    private List<String> idTest;
 	    
 	    @Field(value = "candidateState") 
 	    private List<State> candidateState;
