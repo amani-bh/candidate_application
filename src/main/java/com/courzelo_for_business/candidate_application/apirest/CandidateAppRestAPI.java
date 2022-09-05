@@ -58,6 +58,10 @@ public class CandidateAppRestAPI {
 	public List<CandidateAppDTO> getCandidateAppByBusiness(@PathVariable(name = "idBusiness") String idBusiness) {
 		return iCandidateApp.getAppByBusiness(idBusiness); 
 	}
+	@GetMapping(path = "businessCompanyName/{companyName}")
+	public List<CandidateAppDTO> getCandidateAppByCompanyName(@PathVariable(name = "companyName") String companyName) {
+		return iCandidateApp.getAppByCompanyName(companyName); 
+	}
 	
 	@GetMapping(path = "/byJob/{idJob}")
 	public List<CandidateAppDTO> getCandidateAppByIdJob(@PathVariable(name = "idJob") String idJob) {
@@ -82,6 +86,7 @@ public class CandidateAppRestAPI {
 	
 	@PostMapping(path ="/{idJob}/{id}")
     public ResponseEntity<?> addApp(@RequestBody  @Valid  CandidateAppDTO app,@PathVariable(name = "idJob") String idJob,@PathVariable(name = "id") Long id) throws IOException {
+		System.out.println("11**"+app.getCandidateState().get(0).getOtherTestScore());
 		try {
 			CandidateAppDTO appResponse = iCandidateApp.addApp(app,idJob,id);
 			return new ResponseEntity<CandidateAppDTO>(appResponse, HttpStatus.CREATED);

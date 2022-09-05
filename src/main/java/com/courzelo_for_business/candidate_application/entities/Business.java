@@ -46,6 +46,8 @@ public class Business {
 
   
   private Date creationDate;
+  
+  private Business company;
 
   public Business() {
   }
@@ -222,6 +224,16 @@ public class Business {
 
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+	}
+
+
+	public Business getCompany() {
+		return company;
+	}
+
+
+	public void setCompany(Business company) {
+		this.company = company;
 	}
 
 

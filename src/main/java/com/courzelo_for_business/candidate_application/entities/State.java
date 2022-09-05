@@ -20,10 +20,12 @@ public class State {
 	  private String label;
 	  private int step;
 	  private String idPrehiringTest;
+	  private String idOtherTest;
 	  private String idTest;
 	  private String linkMeet;
 	  private Date interviewDate;
 	  private int score;
+	  private int otherTestScore;
 	  private boolean testState;
 	  private String offerDoc;
 	  public State() {}

@@ -13,6 +13,7 @@ public interface CandidateAppRepository extends MongoRepository<CandidateApp,Str
 	//this repository contain all operations of mongodb
 	public CandidateApp findByIdCandidateApp(String idCandidateApp);
 	public List<CandidateApp> findByJobBusinessIdBusiness(String idBusiness);
+	public List<CandidateApp> findByJobBusinessCompanyCompanyName(String companyName);
 	public boolean existsByJobIdJobAndUserId(String idJob,Long userId);
 	
 	public List<CandidateApp> findByJobIdJob(String idJob);

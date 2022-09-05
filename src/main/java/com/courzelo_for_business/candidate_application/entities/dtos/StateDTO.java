@@ -23,7 +23,8 @@ public class StateDTO {
 	  private String linkMeet;
 	  private Date interviewDate;
 	  private String offerDoc;
-	  
+	  private String idOtherTest;
+	  private int otherTestScore;
 	  private boolean testState;
 	  public StateDTO() {}
 	  
